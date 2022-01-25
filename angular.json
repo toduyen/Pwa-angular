@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "projects": {
+    "pwa-demo": {
+      "projectType": "application",
+      "root": "apps/pwa-demo",
+      "sourceRoot": "apps/pwa-demo/src",
+      "prefix": "pwa-demo",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/pwa-demo",
+            "index": "apps/pwa-demo/src/index.html",
+            "main": "apps/pwa-demo/src/main.ts",
+            "polyfills": "apps/pwa-demo/src/polyfills.ts",
+            "tsConfig": "apps/pwa-demo/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/pwa-demo/src/favicon.ico",
+              "apps/pwa-demo/src/assets",
+              "apps/pwa-demo/src/manifest.webmanifest"
+            ],
+            "styles": [
+              "apps/pwa-demo/src/styles.scss"
+            ],
+            "scripts": [],
+            "serviceWorker": true,
+            "ngswConfigPath": "apps/pwa-demo/ngsw-config.json"
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/pwa-demo/src/environments/environment.ts",
+                  "with": "apps/pwa-demo/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "pwa-demo:build:production"
+            },
+            "development": {
+              "browserTarget": "pwa-demo:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "pwa-demo:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/pwa-demo/src/**/*.ts",
+              "apps/pwa-demo/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/pwa-demo"
+          ],
+          "options": {
+            "jestConfig": "apps/pwa-demo/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "pwa-demo-e2e": {
+      "root": "apps/pwa-demo-e2e",
+      "sourceRoot": "apps/pwa-demo-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/pwa-demo-e2e/cypress.json",
+            "devServerTarget": "pwa-demo:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "pwa-demo:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "apps/pwa-demo-e2e/**/*.{js,ts}"
+            ]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": [
+        "pwa-demo"
+      ]
+    }
+  }
+}
